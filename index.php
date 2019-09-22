@@ -52,7 +52,7 @@ if(isset($_POST['submit'])){
               echo $hour.":".$min.":".$sec;
             ?>
             </h1>
-            <form method="POST" class='homeform'>
+            <form method="POST" class='homeform' style='display:none' id='homeform'>
               <input type='text' placeholder='Name' id='usernameField' name='username' required pattern="[a-zA-Z]+[ a-zA-Z]*" maxlength="20" autofocus>
               <br>
               <input type="submit" class="btn" value="Play" name='submit' id='play'>

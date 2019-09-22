@@ -75,10 +75,10 @@ function getTime() {
            newtime[1] = 59 ;
        }
        if(newtime[0]<0){
-            document.getElementById("play").style.display = "block";
+        document.getElementById('homeform').style.display='flex';
             document.getElementById('time').style.display="none";
             document.getElementById("si").style.display = "none";
-            document.getElementById('usernameField').style.display='block';
+            
        }
        else{   
         document.getElementById('time').style.display="block";
@@ -95,10 +95,9 @@ function getTime() {
   var countdown = [];
   var newtime = [];
 
-    document.getElementById("play").style.display = "none";
     document.getElementById('time').style.display="none";
     document.getElementById("si").style.display = "none";
-    document.getElementById('usernameField').style.display='none';
+    document.getElementById('homeform').style.display='none';
   
   var startinterval;
   
