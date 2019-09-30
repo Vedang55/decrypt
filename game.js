@@ -57,7 +57,12 @@ function ctime(){
       else{
           newtime[2] = countdown[2] - s;
       }
-      document.getElementById('timer').innerHTML = checkTime(newtime[0]) + ":" + checkTime(newtime[1]) + ":" + checkTime(newtime[2]);
+      
+      if(newtime[0]<0){
+        window.location.href = './end.php';
+      }
+
+      document.getElementById('timer').innerHTML = 'Time Left : ' + checkTime(newtime[0]) + ":" + checkTime(newtime[1]) + ":" + checkTime(newtime[2]);
       start();
   }
 xhr2.send();
@@ -72,13 +77,13 @@ function start(){
      }
      if(newtime[1]<0){
          newtime[0] = newtime[0] - 1;
-         newtime[1] = 59 ;
+         newtime[1] = 59;
      }
      if(newtime[0]<0){
-       
+        window.location.href = './end.php';
      }
      else{   
-         document.getElementById('timer').innerHTML = checkTime(newtime[0]) + ":" + checkTime(newtime[1]) + ":" + checkTime(newtime[2]);
+         document.getElementById('timer').innerHTML = 'Time Left : ' + checkTime(newtime[0]) + ":" + checkTime(newtime[1]) + ":" + checkTime(newtime[2]);
      }
      
    }, 1000);

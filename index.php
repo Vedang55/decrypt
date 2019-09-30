@@ -1,24 +1,54 @@
 <?php
 session_start();
+define('dbloc', './handlers/abc/d/test', true);
+
+class MyDB extends SQLite3 {
+  function __construct() {
+    $this->open(dbloc);
+    $this->exec('PRAGMA journal_mode = wal;
+    pragma temp_store=FILE;');
+    $this->busyTimeout(10000);
+  }
+}
+
+
 if (isset($_SESSION["user"])){
   header("Location: ./game.php");
 }
 date_default_timezone_set('Asia/Kolkata');
-$_SESSION['countdown'] = array(10,6,0);
-$_SESSION['end'] = array(11,0,0);
+$_SESSION['countdown'] = array(13,50,0);
+$_SESSION['end'] = array(3,15,0);
 
 if(isset($_POST['submit'])){
     if((date("H")> $_SESSION['countdown'][0]) || (date("H")== $_SESSION['countdown'][0]  && date('i') >= $_SESSION['countdown'][1])){
         $submitbutton= $_POST['submit'];
         if ($submitbutton){
             
-            $_SESSION["user"] = trim($_POST['username']);
+            $_SESSION["user"] = str_replace(' ','',$_POST['username']);
             $_SESSION["question"] = -1;
+            $db = new MyDB();
+            if(!$db) {
+                echo $db->lastErrorMsg();
+            } else {
+                
+                // echo "Opened database successfully<br>";
+                $sql = "INSERT INTO usernames ('username') VALUES ('" . $_SESSION['user'] . "')";
+                $ret = $db->exec($sql);
+                if(!$ret){
+                    echo $db->lastErrorMsg();
+                    
+                } else {
+                    $_SESSION['userid'] = $db->lastInsertRowID();
+                }
+                $db->close();
+            }
+
             header("Location: ./game.php");
         }
     }
 
 }
+
 
 ?>
 
@@ -53,7 +83,7 @@ if(isset($_POST['submit'])){
             ?>
             </h1>
             <form method="POST" class='homeform' style='display:none' id='homeform'>
-              <input type='text' placeholder='Name' id='usernameField' name='username' required pattern="[a-zA-Z]+[ a-zA-Z]*" maxlength="20" autofocus>
+              <input type='text' placeholder='Name' id='usernameField' name='username' required pattern="[a-zA-Z]+[ a-zA-Z]*" maxlength="20" autocomplete='off' autofocus>
               <br>
               <input type="submit" class="btn" value="Play" name='submit' id='play'>
             </form>
